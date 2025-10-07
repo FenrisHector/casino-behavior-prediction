@@ -4,8 +4,10 @@ Proyecto de análisis de comportamiento de jugadores en casinos online usando di
 
 ## Descripción
 
-Este proyecto busca detectar patrones en el comportamiento de jugadores y predecir los resultados de apuestas online
+Este proyecto busca detectar patrones en el comportamiento de jugadores y predecir resultados de apuestas online
+El enfoque principal no fue únicamente escribir código, sino explorar y limpiar datos, probar distintos modelos de machine learning en R y analizar sus resultados
 Se aplicaron técnicas de clustering para segmentar perfiles de usuario y modelos de clasificación y regresión para estimar pérdidas, ganancias y probabilidades de resultado
+Durante el desarrollo se utilizó de forma sutil asistencia de inteligencia artificial, principalmente Copilot en Visual Studio Code, para sugerencias y autocompletado de código, pero todas las decisiones y análisis fueron realizados manualmente
 
 ## Objetivos
 
