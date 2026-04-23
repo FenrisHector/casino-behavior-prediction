@@ -1,27 +1,27 @@
 # ============================================
-# 01 - ANÁLISIS EXPLORATORIO DE DATOS
-# Proyecto: Casino Behavior Prediction
+# 01 - EXPLORATORY DATA ANALYSIS
+# Project: Casino Behavior Prediction
 # ============================================
 
-# Cargar librerías
+# Load libraries
 library(readr)
 library(dplyr)
 library(ggplot2)
 
-# Cargar datos
+# Load raw data
 data <- read_csv("datos/raw/bustabit.csv")
 
-# Ver estructura
+# Inspect structure
 str(data)
 head(data)
 summary(data)
 
-# Dimensiones del dataset
-cat("Filas:", nrow(data), "\n")
-cat("Columnas:", ncol(data), "\n")
+# Dataset dimensions
+cat("Rows:", nrow(data), "\n")
+cat("Columns:", ncol(data), "\n")
 
-# Ver nombres de columnas
+# Column names
 colnames(data)
 
-# Valores faltantes
+# Missing values per column
 colSums(is.na(data))

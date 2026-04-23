@@ -1,42 +1,43 @@
 # ============================================
-# 05 - REGRESIÓN LINEAL (Predecir Profit)
+# 05 - LINEAR REGRESSION (Predict Profit)
+# Project: Casino Behavior Prediction
 # ============================================
 
 library(dplyr)
 library(caret)
 library(ggplot2)
 
-# Cargar datos simulados
+# Load simulated data
 data <- read.csv("datos/processed/casino_simulado.csv")
 
-# Train/Test split (80/20)
+# Train / test split (80 / 20)
 set.seed(123)
 trainIndex <- createDataPartition(data$Profit, p = 0.8, list = FALSE)
-train <- data[trainIndex, ]
-test <- data[-trainIndex, ]
+train      <- data[trainIndex, ]
+test       <- data[-trainIndex, ]
 
-# Modelo 1: Regresión lineal simple
+# Model 1: Simple linear regression
 modelo_simple <- lm(Profit ~ Bet + hora, data = train)
 summary(modelo_simple)
 
-# Modelo 2: Con interacciones
+# Model 2: Linear regression with interaction term
 modelo_interacciones <- lm(Profit ~ Bet * hora + dia_semana, data = train)
 summary(modelo_interacciones)
 
-# Predicciones en TEST
+# Predictions on test set
 pred_simple <- predict(modelo_simple, test)
-pred_int <- predict(modelo_interacciones, test)
+pred_int    <- predict(modelo_interacciones, test)
 
-# Métricas (RMSE, R²)
-cat("\n=== MODELO SIMPLE ===\n")
+# Evaluation metrics (RMSE, R²)
+cat("\n=== SIMPLE MODEL ===\n")
 cat("RMSE:", RMSE(pred_simple, test$Profit), "\n")
-cat("R²:", R2(pred_simple, test$Profit), "\n")
+cat("R²:",   R2(pred_simple,   test$Profit), "\n")
 
-cat("\n=== MODELO CON INTERACCIONES ===\n")
+cat("\n=== MODEL WITH INTERACTIONS ===\n")
 cat("RMSE:", RMSE(pred_int, test$Profit), "\n")
-cat("R²:", R2(pred_int, test$Profit), "\n")
+cat("R²:",   R2(pred_int,   test$Profit), "\n")
 
-# Gráfico: Predicho vs Real
+# Plot: Predicted vs Actual
 ggplot(
   data.frame(Real = test$Profit, Predicho = pred_int),
   aes(x = Real, y = Predicho)
@@ -44,8 +45,9 @@ ggplot(
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, color = "red") +
   labs(
-    title = "Regresión Lineal: Predicho vs Real",
-    x = "Profit Real", y = "Profit Predicho"
+    title = "Linear Regression: Predicted vs Actual",
+    x     = "Actual Profit",
+    y     = "Predicted Profit"
   ) +
   theme_minimal()
 

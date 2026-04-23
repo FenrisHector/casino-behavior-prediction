@@ -1,48 +1,51 @@
 # ============================================
-# 06 - VALIDACIÓN CRUZADA Y COMPARACIÓN
+# 06 - CROSS-VALIDATION AND MODEL COMPARISON
+# Project: Casino Behavior Prediction
 # ============================================
 
 library(caret)
 library(randomForest)
 
-# Cargar datos
-data <- read.csv("datos/processed/casino_simulado.csv")
+# Load simulated data
+data        <- read.csv("datos/processed/casino_simulado.csv")
 data$perdio <- as.factor(data$perdio)
 
-# Configurar validación cruzada 5-fold
+# 5-fold cross-validation setup
 control <- trainControl(method = "cv", number = 5)
 
-# Modelo 1: Regresión Logística
+# Model 1: Logistic Regression
 set.seed(123)
-modelo_logit <- train(perdio ~ Bet + hora,
-  data = data,
-  method = "glm",
-  family = "binomial",
+modelo_logit <- train(
+  perdio ~ Bet + hora,
+  data      = data,
+  method    = "glm",
+  family    = "binomial",
   trControl = control
 )
 
-# Modelo 2: Random Forest
+# Model 2: Random Forest (500 trees)
 set.seed(123)
-modelo_rf <- train(perdio ~ Bet + hora + dia_semana,
-  data = data,
-  method = "rf",
+modelo_rf <- train(
+  perdio ~ Bet + hora + dia_semana,
+  data      = data,
+  method    = "rf",
   trControl = control
 )
 
-# Comparar modelos
+# Compare models
 resultados <- resamples(list(
-  Logistica = modelo_logit,
+  Logistica    = modelo_logit,
   RandomForest = modelo_rf
 ))
 
 summary(resultados)
 
-# Gráfico comparativo
+# Comparison boxplot
 png("results/figures/comparacion_modelos.png", width = 800, height = 600)
 bwplot(resultados)
 dev.off()
 
-# Mejores modelos
-cat("\n=== MEJOR MODELO ===\n")
-cat("Regresión Logística - Accuracy:", max(modelo_logit$results$Accuracy), "\n")
-cat("Random Forest - Accuracy:", max(modelo_rf$results$Accuracy), "\n")
+# Best model summary
+cat("\n=== BEST MODEL ===\n")
+cat("Logistic Regression - Accuracy:", max(modelo_logit$results$Accuracy), "\n")
+cat("Random Forest       - Accuracy:", max(modelo_rf$results$Accuracy),    "\n")
